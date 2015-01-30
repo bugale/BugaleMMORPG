@@ -1,0 +1,15 @@
+﻿<Window x:Class="BugaleMMORPGWPFClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Bugale MMORPG" ResizeMode="CanMinimize" Height="202" Width="770" Topmost="True" Closing="Window_Closing_1" KeyUp="Window_KeyUp_1">
+    <Grid>
+        <Grid x:Name="MapGrid" Height="60" Margin="0,40,0,0" VerticalAlignment="Top" Width="750"/>
+        <Grid x:Name="HPGrid" Height="34" Margin="7,20,7,0" VerticalAlignment="Top" Width="750"/>
+        <Label Content="Level:" HorizontalAlignment="Left" Margin="30,105,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LevelLabel" Content="0" HorizontalAlignment="Left" Margin="69,105,0,0" VerticalAlignment="Top"/>
+        <Label Content="HP:" HorizontalAlignment="Left" Margin="185,105,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="HPLabel" Content="0" HorizontalAlignment="Left" Margin="213,105,0,0" VerticalAlignment="Top"/>
+        <Label Content="Weapon Attack:" HorizontalAlignment="Left" Margin="286,105,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WeaponAttackLabel" Content="0" HorizontalAlignment="Left" Margin="380,105,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

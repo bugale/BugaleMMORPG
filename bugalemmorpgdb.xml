@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Players>
+    <bugale max_hp="10" weapon_attack="3" level="1" />
+  </Players>
+  <Monsters>
+    <x_monster max_hp="100" weapon_attack="3" />
+  </Monsters>
+</Root>
