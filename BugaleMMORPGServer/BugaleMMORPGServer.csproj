@@ -33,9 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,13 +56,73 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BugaleMMORPGModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BugaleMMORPGModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BugaleMMORPGModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BugaleMMORPGModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BugaleMMORPGModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Character.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Class.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Communication.cs" />
+    <Compile Include="Map.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MonsterType.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Platform.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Portal.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="SQLObjects.cs" />
+    <Compile Include="StateObjects.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>BugaleMMORPGModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="BugaleMMORPGModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BugaleMMORPGModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="BugaleMMORPGModel.edmx.diagram">
+      <DependentUpon>BugaleMMORPGModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BugaleMMORPGModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BugaleMMORPGModel.edmx</DependentUpon>
+      <LastGenOutput>BugaleMMORPGModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BugaleMMORPGModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BugaleMMORPGModel.edmx</DependentUpon>
+      <LastGenOutput>BugaleMMORPGModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

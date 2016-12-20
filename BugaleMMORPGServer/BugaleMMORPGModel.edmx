@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BugaleMMORPGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Characters">
+          <Key>
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="CharacterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ClassID" Type="int" Nullable="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="Experience" Type="int" Nullable="false" />
+          <Property Name="MapID" Type="int" Nullable="false" />
+          <Property Name="Speed" Type="float" Nullable="false" />
+          <Property Name="JumpSpeed" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Classes">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Maps">
+          <Key>
+            <PropertyRef Name="MapID" />
+          </Key>
+          <Property Name="MapID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Gravity" Type="real" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BugaleMMORPG.dbo.MonsterSpawns' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonsterSpawns">
+          <Key>
+            <PropertyRef Name="MonsterTypeID" />
+            <PropertyRef Name="PlatformID" />
+          </Key>
+          <Property Name="MonsterTypeID" Type="int" Nullable="false" />
+          <Property Name="PlatformID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MonsterTypes">
+          <Key>
+            <PropertyRef Name="MonsterTypeID" />
+          </Key>
+          <Property Name="MonsterTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="Speed" Type="float" Nullable="false" />
+          <Property Name="JumpSpeed" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Platforms">
+          <Key>
+            <PropertyRef Name="PlatformID" />
+          </Key>
+          <Property Name="PlatformID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MapID" Type="int" Nullable="false" />
+          <Property Name="Location1X" Type="float" Nullable="false" />
+          <Property Name="Location1Y" Type="float" Nullable="false" />
+          <Property Name="Location2X" Type="float" Nullable="false" />
+          <Property Name="Location2Y" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Portals">
+          <Key>
+            <PropertyRef Name="PortalID" />
+          </Key>
+          <Property Name="PortalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MapID" Type="int" Nullable="false" />
+          <Property Name="LocationX" Type="float" Nullable="false" />
+          <Property Name="LocationY" Type="float" Nullable="false" />
+          <Property Name="DestPortalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="CreatinDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Characters_Classes">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="1" />
+          <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Characters">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Characters_Maps">
+          <End Role="Maps" Type="Self.Maps" Multiplicity="1" />
+          <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maps">
+              <PropertyRef Name="MapID" />
+            </Principal>
+            <Dependent Role="Characters">
+              <PropertyRef Name="MapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Characters_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Characters">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MonsterSpawns_MonsterTypes">
+          <End Role="MonsterTypes" Type="Self.MonsterTypes" Multiplicity="1" />
+          <End Role="MonsterSpawns" Type="Self.MonsterSpawns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MonsterTypes">
+              <PropertyRef Name="MonsterTypeID" />
+            </Principal>
+            <Dependent Role="MonsterSpawns">
+              <PropertyRef Name="MonsterTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MonsterSpawns_Platforms">
+          <End Role="Platforms" Type="Self.Platforms" Multiplicity="1" />
+          <End Role="MonsterSpawns" Type="Self.MonsterSpawns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platforms">
+              <PropertyRef Name="PlatformID" />
+            </Principal>
+            <Dependent Role="MonsterSpawns">
+              <PropertyRef Name="PlatformID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Platforms_Maps">
+          <End Role="Maps" Type="Self.Maps" Multiplicity="1" />
+          <End Role="Platforms" Type="Self.Platforms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maps">
+              <PropertyRef Name="MapID" />
+            </Principal>
+            <Dependent Role="Platforms">
+              <PropertyRef Name="MapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Portals_Maps">
+          <End Role="Maps" Type="Self.Maps" Multiplicity="1" />
+          <End Role="Portals" Type="Self.Portals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maps">
+              <PropertyRef Name="MapID" />
+            </Principal>
+            <Dependent Role="Portals">
+              <PropertyRef Name="MapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BugaleMMORPGModelStoreContainer">
+          <EntitySet Name="Characters" EntityType="Self.Characters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maps" EntityType="Self.Maps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MonsterTypes" EntityType="Self.MonsterTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Platforms" EntityType="Self.Platforms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Portals" EntityType="Self.Portals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MonsterSpawns" EntityType="Self.MonsterSpawns" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonsterSpawns].[MonsterTypeID] AS [MonsterTypeID], 
+    [MonsterSpawns].[PlatformID] AS [PlatformID]
+    FROM [dbo].[MonsterSpawns] AS [MonsterSpawns]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Characters_Classes" Association="Self.FK_Characters_Classes">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Characters" EntitySet="Characters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Characters_Maps" Association="Self.FK_Characters_Maps">
+            <End Role="Maps" EntitySet="Maps" />
+            <End Role="Characters" EntitySet="Characters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Characters_Users" Association="Self.FK_Characters_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Characters" EntitySet="Characters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MonsterSpawns_MonsterTypes" Association="Self.FK_MonsterSpawns_MonsterTypes">
+            <End Role="MonsterTypes" EntitySet="MonsterTypes" />
+            <End Role="MonsterSpawns" EntitySet="MonsterSpawns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MonsterSpawns_Platforms" Association="Self.FK_MonsterSpawns_Platforms">
+            <End Role="Platforms" EntitySet="Platforms" />
+            <End Role="MonsterSpawns" EntitySet="MonsterSpawns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Platforms_Maps" Association="Self.FK_Platforms_Maps">
+            <End Role="Maps" EntitySet="Maps" />
+            <End Role="Platforms" EntitySet="Platforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Portals_Maps" Association="Self.FK_Portals_Maps">
+            <End Role="Maps" EntitySet="Maps" />
+            <End Role="Portals" EntitySet="Portals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BugaleMMORPGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Character">
+          <Key>
+            <PropertyRef Name="CharacterID" />
+          </Key>
+          <Property Name="CharacterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="Experience" Type="Int32" Nullable="false" />
+          <Property Name="MapID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_Characters_Classes" FromRole="Characters" ToRole="Classes" />
+          <NavigationProperty Name="Map" Relationship="Self.FK_Characters_Maps" FromRole="Characters" ToRole="Maps" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Characters_Users" FromRole="Characters" ToRole="Users" />
+          <Property Name="Speed" Type="Double" Nullable="false" />
+          <Property Name="JumpSpeed" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Classes" FromRole="Classes" ToRole="Characters" />
+        </EntityType>
+        <EntityType Name="Map">
+          <Key>
+            <PropertyRef Name="MapID" />
+          </Key>
+          <Property Name="MapID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gravity" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Maps" FromRole="Maps" ToRole="Characters" />
+          <NavigationProperty Name="Platforms" Relationship="Self.FK_Platforms_Maps" FromRole="Maps" ToRole="Platforms" />
+          <NavigationProperty Name="Portals" Relationship="Self.FK_Portals_Maps" FromRole="Maps" ToRole="Portals" />
+        </EntityType>
+        <EntityType Name="MonsterType">
+          <Key>
+            <PropertyRef Name="MonsterTypeID" />
+          </Key>
+          <Property Name="MonsterTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Platforms" Relationship="Self.MonsterSpawns" FromRole="MonsterTypes" ToRole="Platforms" />
+          <Property Name="Speed" Type="Double" Nullable="false" />
+          <Property Name="JumpSpeed" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Platform">
+          <Key>
+            <PropertyRef Name="PlatformID" />
+          </Key>
+          <Property Name="PlatformID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MapID" Type="Int32" Nullable="false" />
+          <Property Name="LocationX" Type="Double" Nullable="false" />
+          <Property Name="LocationY" Type="Double" Nullable="false" />
+          <Property Name="SizeX" Type="Double" Nullable="false" />
+          <Property Name="SizeY" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Map" Relationship="Self.FK_Platforms_Maps" FromRole="Platforms" ToRole="Maps" />
+          <NavigationProperty Name="MonsterTypes" Relationship="Self.MonsterSpawns" FromRole="Platforms" ToRole="MonsterTypes" />
+          <Property Name="Location1X" Type="Double" Nullable="false" />
+          <Property Name="Location1Y" Type="Double" Nullable="false" />
+          <Property Name="Location2X" Type="Double" Nullable="false" />
+          <Property Name="Location2Y" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Portal">
+          <Key>
+            <PropertyRef Name="PortalID" />
+          </Key>
+          <Property Name="PortalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MapID" Type="Int32" Nullable="false" />
+          <Property Name="LocationX" Type="Double" Nullable="false" />
+          <Property Name="LocationY" Type="Double" Nullable="false" />
+          <Property Name="DestPortalID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Map" Relationship="Self.FK_Portals_Maps" FromRole="Portals" ToRole="Maps" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastLogin" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Users" FromRole="Users" ToRole="Characters" />
+        </EntityType>
+        <Association Name="FK_Characters_Classes">
+          <End Role="Classes" Type="Self.Class" Multiplicity="1" />
+          <End Role="Characters" Type="Self.Character" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Characters">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Characters_Maps">
+          <End Role="Maps" Type="Self.Map" Multiplicity="1" />
+          <End Role="Characters" Type="Self.Character" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maps">
+              <PropertyRef Name="MapID" />
+            </Principal>
+            <Dependent Role="Characters">
+              <PropertyRef Name="MapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Characters_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Characters" Type="Self.Character" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Characters">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Platforms_Maps">
+          <End Role="Maps" Type="Self.Map" Multiplicity="1" />
+          <End Role="Platforms" Type="Self.Platform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maps">
+              <PropertyRef Name="MapID" />
+            </Principal>
+            <Dependent Role="Platforms">
+              <PropertyRef Name="MapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Portals_Maps">
+          <End Role="Maps" Type="Self.Map" Multiplicity="1" />
+          <End Role="Portals" Type="Self.Portal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maps">
+              <PropertyRef Name="MapID" />
+            </Principal>
+            <Dependent Role="Portals">
+              <PropertyRef Name="MapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MonsterSpawns">
+          <End Role="MonsterTypes" Type="Self.MonsterType" Multiplicity="*" />
+          <End Role="Platforms" Type="Self.Platform" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Characters" EntityType="Self.Character" />
+          <EntitySet Name="Classes" EntityType="Self.Class" />
+          <EntitySet Name="Maps" EntityType="Self.Map" />
+          <EntitySet Name="MonsterTypes" EntityType="Self.MonsterType" />
+          <EntitySet Name="Platforms" EntityType="Self.Platform" />
+          <EntitySet Name="Portals" EntityType="Self.Portal" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Characters_Classes" Association="Self.FK_Characters_Classes">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Characters" EntitySet="Characters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Characters_Maps" Association="Self.FK_Characters_Maps">
+            <End Role="Maps" EntitySet="Maps" />
+            <End Role="Characters" EntitySet="Characters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Characters_Users" Association="Self.FK_Characters_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Characters" EntitySet="Characters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Platforms_Maps" Association="Self.FK_Platforms_Maps">
+            <End Role="Maps" EntitySet="Maps" />
+            <End Role="Platforms" EntitySet="Platforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Portals_Maps" Association="Self.FK_Portals_Maps">
+            <End Role="Maps" EntitySet="Maps" />
+            <End Role="Portals" EntitySet="Portals" />
+          </AssociationSet>
+          <AssociationSet Name="MonsterSpawns" Association="Self.MonsterSpawns">
+            <End Role="MonsterTypes" EntitySet="MonsterTypes" />
+            <End Role="Platforms" EntitySet="Platforms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BugaleMMORPGModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Characters">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.Character">
+              <MappingFragment StoreEntitySet="Characters">
+                <ScalarProperty Name="JumpSpeed" ColumnName="JumpSpeed" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="MapID" ColumnName="MapID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.Class">
+              <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maps">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.Map">
+              <MappingFragment StoreEntitySet="Maps">
+                <ScalarProperty Name="MapID" ColumnName="MapID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Gravity" ColumnName="Gravity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonsterTypes">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.MonsterType">
+              <MappingFragment StoreEntitySet="MonsterTypes">
+                <ScalarProperty Name="JumpSpeed" ColumnName="JumpSpeed" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="MonsterTypeID" ColumnName="MonsterTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Platforms">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.Platform">
+              <MappingFragment StoreEntitySet="Platforms">
+                <ScalarProperty Name="Location2Y" ColumnName="Location2Y" />
+                <ScalarProperty Name="Location2X" ColumnName="Location2X" />
+                <ScalarProperty Name="Location1Y" ColumnName="Location1Y" />
+                <ScalarProperty Name="Location1X" ColumnName="Location1X" />
+                <ScalarProperty Name="PlatformID" ColumnName="PlatformID" />
+                <ScalarProperty Name="MapID" ColumnName="MapID" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Portals">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.Portal">
+              <MappingFragment StoreEntitySet="Portals">
+                <ScalarProperty Name="PortalID" ColumnName="PortalID" />
+                <ScalarProperty Name="MapID" ColumnName="MapID" />
+                <ScalarProperty Name="LocationX" ColumnName="LocationX" />
+                <ScalarProperty Name="LocationY" ColumnName="LocationY" />
+                <ScalarProperty Name="DestPortalID" ColumnName="DestPortalID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BugaleMMORPGModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="CreatinDate" ColumnName="CreatinDate" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MonsterSpawns" TypeName="BugaleMMORPGModel.MonsterSpawns" StoreEntitySet="MonsterSpawns">
+            <EndProperty Name="MonsterTypes">
+              <ScalarProperty Name="MonsterTypeID" ColumnName="MonsterTypeID" />
+            </EndProperty>
+            <EndProperty Name="Platforms">
+              <ScalarProperty Name="PlatformID" ColumnName="PlatformID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
